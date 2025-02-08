@@ -1,0 +1,102 @@
+/* General Styles */
+body {
+    margin: 0;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; /* Font modern */
+    background-color: #f0f2f5; /* Warna latar belakang lebih lembut */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+.container {
+    width: 100%;
+    max-width: 400px; /* Lebar maksimal form */
+    padding: 30px;
+    background-color: #ffffff; /* Latar belakang putih */
+    border-radius: 12px; /* Sudut melengkung lebih besar */
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1); /* Efek bayangan lebih tebal */
+    text-align: center; /* Pusatkan teks */
+}
+
+.container h1 {
+    font-size: 28px;
+    font-weight: 700;
+    color: #333333; /* Warna teks gelap */
+    margin-bottom: 20px;
+}
+
+.container p {
+    font-size: 14px;
+    color: #555555; /* Warna abu-abu untuk deskripsi */
+    margin-bottom: 20px;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column; /* Mengatur label dan input dalam kolom */
+    margin-bottom: 20px;
+    text-align: left; /* Label dan input rata kiri */
+}
+
+.form-group label {
+    font-size: 14px;
+    font-weight: 500;
+    color: #333333; /* Warna teks gelap */
+    margin-bottom: 8px;
+}
+
+.form-group input,
+.form-group select {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #d1d1d1; /* Border abu-abu muda */
+    border-radius: 8px; /* Sudut melengkung lebih besar */
+    font-size: 14px;
+    outline: none; /* Hilangkan outline saat fokus */
+    transition: border-color 0.2s ease, box-shadow 0.2s ease; /* Efek hover halus */
+}
+
+.form-group input:focus,
+.form-group select:focus {
+    border-color: #007bff; /* Border biru saat fokus */
+    box-shadow: 0 0 8px rgba(0, 123, 255, 0.2); /* Efek glow saat fokus */
+}
+
+button {
+    width: 100%;
+    padding: 14px;
+    background-color: #007bff; /* Biru cerah */
+    color: white;
+    border: none;
+    border-radius: 8px; /* Sudut melengkung lebih besar */
+    cursor: pointer;
+    font-size: 16px;
+    font-weight: 600;
+    transition: background-color 0.2s ease; /* Efek hover halus */
+}
+
+button:hover {
+    background-color: #0056b3; /* Biru lebih gelap saat dihover */
+}
+
+.link {
+    margin-top: 15px;
+    font-size: 14px;
+    color: #007bff; /* Warna biru untuk link */
+    text-decoration: none;
+    cursor: pointer;
+    transition: color 0.2s ease; /* Efek hover halus */
+}
+
+.link:hover {
+    text-decoration: underline; /* Underline saat dihover */
+    color: #0056b3; /* Warna biru lebih gelap saat dihover */
+}
+
+.error-message {
+    color: red;
+    font-size: 14px;
+    margin-top: 10px;
+    text-align: left;
+}

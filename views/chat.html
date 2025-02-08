@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chat Anonim</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div id="app">
+        <!-- Sidebar -->
+        <div id="sidebar">
+            <h2>Pengguna Aktif</h2>
+            <p id="active-user-count">Jumlah Pengguna Aktif: 0</p>
+            <ul id="user-list"></ul>
+        </div>
+
+        <!-- Chat Window -->
+        <div id="chat-window">
+            <!-- Header Chat -->
+            <div id="chat-header">
+                <h3><span id="username"></span> (<span id="school"></span>)</h3>
+            </div>
+
+            <!-- Messages Area -->
+            <div id="messages"></div>
+
+            <!-- Input Container -->
+            <div id="input-container">
+                <input type="text" id="message-input" placeholder="Ketik pesan...">
+                <button id="send-button">Kirim</button>
+            </div>
+        </div>
+    </div>
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>

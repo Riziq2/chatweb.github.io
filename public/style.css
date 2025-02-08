@@ -1,0 +1,192 @@
+/* General Styles */
+body {
+    margin: 0;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; /* Font modern */
+    background-color: #f0f2f5; /* Warna latar belakang lebih lembut */
+    display: flex;
+    height: 100vh;
+}
+
+#app {
+    display: flex;
+    width: 100%;
+    height: 100%;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Efek bayangan halus */
+}
+
+/* Sidebar */
+#sidebar {
+    width: 300px;
+    background-color: #ffffff; /* Latar belakang putih */
+    color: #333333; /* Warna teks gelap */
+    padding: 20px;
+    border-right: 1px solid #e0e0e0; /* Garis pemisah antara sidebar dan chat */
+    box-shadow: 2px 0 5px rgba(0, 0, 0, 0.05); /* Efek bayangan halus */
+}
+
+#sidebar h2 {
+    font-size: 20px;
+    font-weight: 600;
+    margin-bottom: 20px;
+    color: #007bff; /* Warna biru cerah untuk judul */
+}
+
+#active-user-count {
+    font-size: 14px;
+    color: #555;
+    margin-bottom: 20px;
+}
+
+#user-list {
+    list-style: none;
+    padding: 0;
+}
+
+#user-list li {
+    display: flex;
+    align-items: center;
+    margin-bottom: 15px;
+    cursor: pointer;
+    transition: background-color 0.2s ease; /* Efek hover halus */
+}
+
+#user-list li:hover {
+    background-color: #f9f9f9; /* Warna latar saat dihover */
+    border-radius: 8px; /* Sudut melengkung */
+}
+
+#user-list li span {
+    font-size: 16px;
+    font-weight: 500;
+    color: #333333;
+}
+
+/* Chat Window */
+#chat-window {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    background-color: #ffffff; /* Latar belakang putih */
+    border-left: 1px solid #e0e0e0; /* Garis pemisah antara sidebar dan chat */
+}
+
+/* Chat Header */
+#chat-header {
+    padding: 15px;
+    border-bottom: 1px solid #e0e0e0;
+    background-color: #f9f9f9;
+}
+
+#chat-header h3 {
+    font-size: 16px;
+    margin: 0;
+    color: #333;
+}
+
+/* Messages Area */
+#messages {
+    flex: 1;
+    overflow-y: auto;
+    padding: 20px;
+    border-bottom: 1px solid #e0e0e0; /* Garis pemisah antara pesan dan input */
+}
+
+.message {
+    display: flex;
+    flex-direction: column; /* Ubah menjadi kolom */
+    margin-bottom: 20px;
+    align-items: flex-start; /* Default untuk penerima */
+}
+
+.message.sent {
+    align-items: flex-end; /* Posisi pesan pengirim di kanan */
+}
+
+.message .username {
+    font-size: 14px;
+    font-weight: 600;
+    color: #007bff; /* Warna biru untuk nama pengguna */
+    margin-bottom: 5px; /* Spasi kecil antara nama dan pesan */
+    text-align: left; /* Nama pengguna selalu di kiri */
+}
+
+.message.sent .username {
+    text-align: right; /* Nama pengguna pengirim di kanan */
+}
+
+.message .content {
+    padding: 8px 12px; /* Padding diperkecil */
+    border-radius: 12px; /* Bubble message lebih kecil */
+    position: relative;
+    word-wrap: break-word;
+    font-size: 14px; /* Ukuran font diperkecil */
+    line-height: 1.4;
+    max-width: 70%; /* Batasi lebar maksimal */
+}
+
+.message .content.sent {
+    background-color: #dcf8c6; /* Hijau muda untuk pesan terkirim */
+    align-self: flex-end; /* Posisi di kanan */
+}
+
+.message .content.received {
+    background-color: #ececec; /* Abu-abu muda untuk pesan diterima */
+    align-self: flex-start; /* Posisi di kiri */
+}
+
+.message .content.system {
+    background-color: #f0f2f5; /* Warna abu-abu muda */
+    color: #555; /* Warna teks abu-abu */
+    align-self: center; /* Posisi di tengah */
+    border-radius: 8px; /* Sudut melengkung */
+    padding: 8px 12px;
+    font-size: 14px;
+    font-style: italic; /* Gaya miring */
+}
+
+/* Timestamp */
+.message .timestamp {
+    font-size: 12px; /* Ukuran font lebih kecil */
+    color: #999; /* Warna abu-abu muda */
+    margin-top: 4px; /* Spasi antara teks pesan dan timestamp */
+    text-align: right; /* Selalu di kanan */
+    width: 100%; /* Lebar penuh untuk align text */
+}
+
+/* Input Container */
+#input-container {
+    display: flex;
+    padding: 15px;
+    background-color: #ffffff; /* Latar belakang putih */
+    border-top: 1px solid #e0e0e0; /* Garis pemisah antara input dan pesan */
+}
+
+#message-input {
+    flex: 1;
+    padding: 12px;
+    border: 1px solid #d1d1d1; /* Border abu-abu muda */
+    border-radius: 25px; /* Sudut melengkung */
+    font-size: 16px;
+    outline: none; /* Hilangkan outline saat fokus */
+    transition: border-color 0.2s ease; /* Efek hover halus */
+}
+
+#message-input:focus {
+    border-color: #007bff; /* Border biru saat fokus */
+}
+
+#send-button {
+    padding: 12px 20px;
+    margin-left: 10px;
+    background-color: #007bff; /* Biru cerah */
+    color: white;
+    border: none;
+    border-radius: 25px; /* Sudut melengkung */
+    cursor: pointer;
+    font-size: 16px;
+    transition: background-color 0.2s ease; /* Efek hover halus */
+}
+
+#send-button:hover {
+    background-color: #0056b3; /* Biru lebih gelap saat dihover */
+}
