@@ -5,7 +5,7 @@ const http = require('http');
 const socketIo = require('socket.io');
 
 const app = express();
-const PORT = 3000;
+const PORT = process.env.PORT || 3000;
 
 // Middleware untuk parsing JSON
 app.use(express.json());
@@ -29,10 +29,9 @@ app.get('/chat', (req, res) => {
 
 // Register endpoint
 app.post('/register', (req, res) => {
-    const { username, password, school } = req.body; // Tambahkan field "school"
+    const { username, password, school } = req.body;
     const dataFilePath = path.join(__dirname, 'data_user.txt');
 
-    // Validasi pilihan sekolah
     const validSchools = ['SMP IT', 'MTsN 3', 'SMP N 1'];
     if (!validSchools.includes(school)) {
         return res.status(400).json({ message: 'Pilihan sekolah tidak valid!' });
@@ -48,11 +47,10 @@ app.post('/register', (req, res) => {
             return res.status(400).json({ message: 'Username sudah digunakan!' });
         }
 
-        // Simpan username, password, dan sekolah ke file dalam format CSV
         const userData = `${username},${password},${school}\n`;
         fs.appendFile(dataFilePath, userData, (err) => {
             if (err) return res.status(500).send('Server error');
-            console.log(`User ${username} registered with school: ${school}`); // Debugging
+            console.log(`User ${username} registered with school: ${school}`);
             res.json({ message: 'Registrasi berhasil! Silakan login.' });
         });
     });
@@ -73,9 +71,9 @@ app.post('/login', (req, res) => {
         });
 
         if (user) {
-            const [_, __, school] = user.split(','); // Ambil data sekolah
-            console.log('Login berhasil:', { username, school }); // Debugging
-            res.json({ message: 'Login berhasil!', username, school }); // Kirim data sekolah
+            const [_, __, school] = user.split(',');
+            console.log('Login berhasil:', { username, school });
+            res.json({ message: 'Login berhasil!', username, school });
         } else {
             res.status(401).json({ message: 'Username atau password salah!' });
         }
@@ -86,19 +84,15 @@ app.post('/login', (req, res) => {
 const server = http.createServer(app);
 const io = socketIo(server);
 
-// Store active users
 const activeUsers = new Set();
-
-// Path to the chat log file
 const chatLogPath = path.join(__dirname, 'chat.txt');
 
 // Handle Socket.IO connections
 io.on('connection', (socket) => {
     console.log('A user connected:', socket.id);
 
-    // Listen for user joining the chat
     socket.on('join', (user) => {
-        const { username, school } = user; // Ekstrak username dan school dari objek
+        const { username, school } = user;
         if (!username || !school) {
             console.error('Invalid user data received:', user);
             return;
@@ -106,14 +100,13 @@ io.on('connection', (socket) => {
 
         if (!activeUsers.has(username)) {
             socket.username = username;
-            socket.school = school; // Simpan sekolah di socket
+            socket.school = school;
             activeUsers.add(username);
-            io.emit('activeUsers', Array.from(activeUsers)); // Kirim daftar pengguna aktif ke semua klien
+            io.emit('activeUsers', Array.from(activeUsers));
             const timestamp = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
-            const joinMessage = `${username} (${school}) has joined the chat.`; // Tambahkan sekolah ke pesan
+            const joinMessage = `${username} (${school}) has joined the chat.`;
             const logMessage = `[${timestamp}] [System] ${joinMessage}\n`;
 
-            // Simpan pesan sistem ke chat.txt
             fs.appendFile(chatLogPath, logMessage, (err) => {
                 if (err) console.error('Error writing to chat.txt:', err);
             });
@@ -121,21 +114,19 @@ io.on('connection', (socket) => {
             io.emit('message', { 
                 username: 'System', 
                 text: joinMessage,
-                timestamp: timestamp // Kirim timestamp ke frontend
+                timestamp: timestamp 
             });
         }
     });
 
-    // Listen for new messages
     socket.on('sendMessage', (message) => {
-        const fullMessage = message.trim(); // Hapus spasi di awal dan akhir
-        if (!fullMessage) return; // Jangan kirim pesan kosong
+        const fullMessage = message.trim();
+        if (!fullMessage) return;
 
         const timestamp = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
         const formattedMessage = `${socket.username} (${socket.school}): ${fullMessage}`;
         const logMessage = `[${timestamp}] ${formattedMessage}\n`;
 
-        // Simpan pesan ke chat.txt dengan timestamp
         fs.appendFile(chatLogPath, logMessage, (err) => {
             if (err) console.error('Error writing to chat.txt:', err);
         });
@@ -144,21 +135,19 @@ io.on('connection', (socket) => {
             username: socket.username, 
             school: socket.school, 
             text: fullMessage,
-            timestamp: timestamp // Kirim timestamp ke frontend
+            timestamp: timestamp 
         });
     });
 
-    // Handle user disconnect
     socket.on('disconnect', () => {
         console.log('A user disconnected:', socket.id);
         if (socket.username && activeUsers.has(socket.username)) {
             activeUsers.delete(socket.username);
-            io.emit('activeUsers', Array.from(activeUsers)); // Kirim daftar pengguna aktif ke semua klien
+            io.emit('activeUsers', Array.from(activeUsers));
             const timestamp = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
-            const leaveMessage = `${socket.username} (${socket.school}) has left the chat.`; // Tambahkan sekolah ke pesan
+            const leaveMessage = `${socket.username} (${socket.school}) has left the chat.`;
             const logMessage = `[${timestamp}] [System] ${leaveMessage}\n`;
 
-            // Simpan pesan sistem ke chat.txt
             fs.appendFile(chatLogPath, logMessage, (err) => {
                 if (err) console.error('Error writing to chat.txt:', err);
             });
@@ -166,13 +155,18 @@ io.on('connection', (socket) => {
             io.emit('message', { 
                 username: 'System', 
                 text: leaveMessage,
-                timestamp: timestamp // Kirim timestamp ke frontend
+                timestamp: timestamp 
             });
         }
     });
 });
 
-// Start server
-server.listen(PORT, () => {
-    console.log(`Server berjalan di http://localhost:${PORT}`);
-});
+// Start server (hanya jika dijalankan secara langsung, bukan di Vercel)
+if (require.main === module) {
+    server.listen(PORT, () => {
+        console.log(`Server berjalan di http://localhost:${PORT}`);
+    });
+}
+
+// Ekspor app untuk Vercel
+module.exports = app;
